@@ -27,14 +27,26 @@
 - name: install app components
   apt: name=ansible state=present
 
+- name: delete repo 
+  file:
+    path: /var/wcdemo-ansible
+    state: absent
+
 - name: ensure git repo is present
   git:
     repo: "https://github.com/burnsie7/wcdemo-ansible.git"
     dest: /var/wcdemo-ansible
 
+- name: ensure datadog_callback.yml
+  file:
+    path: /var/wcdemo-ansible/inventory
+    state: absent
+
 - name: generate inventory
   template: src=inventory.j2 dest=/var/wcdemo-ansible/inventory
-  tags: "test"
+
+- name: copy vars 
+  copy: src=../../../group_vars/all/vars dest=/var/wcdemo-ansible/group_vars/all/vars
 
 - name: ensure datadog_callback.yml
   file:
