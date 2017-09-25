@@ -1,6 +1,7 @@
 ---
 - name: update apt cache
   apt: update_cache=yes
+
 - name: install app components
   apt: name={{item}} state=present
   with_items:
@@ -60,6 +61,23 @@
 
 - name: copy api key to datadog_callback.yml
   shell: 'echo api_key: "{{ datadog_api_key }}" >> /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml'
+
+# TODO: Generate keys as ubuntu user
+#- name: generate ssh keys
+#  become: ubuntu
+#  shell: ssh-keygen -b 2048 -t rsa -f /home/ubuntu/.ssh/id_rsa -q -N ""
+#  args:
+#    creates: /home/ubuntu/.ssh/id_rsa
+
+- name: fetch pub key
+  fetch:
+    src: /home/ubuntu/.ssh/id_rsa.pub 
+    dest: ../tmp/demo_id_rsa.pub
+    flat: yes
+
+# this works when in setup but not from here
+- name: install ssh key
+  local_action: "shell cat ../tmp/demo_id_rsa.pub | ssh -i {{ pem_path }} -oStrictHostKeyChecking=no -l ubuntu ubuntu@{{ inventory_hostname }} 'cat >> .ssh/authorized_keys'"
 
 - cron:
     name: "test job"

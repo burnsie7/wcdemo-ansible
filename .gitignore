@@ -2,3 +2,4 @@ vars
 datadog_callback.yml
 inventory
 *.pyc
+*.pem
