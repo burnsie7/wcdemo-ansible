@@ -32,6 +32,10 @@
     repo: "https://github.com/burnsie7/wcdemo-ansible.git"
     dest: /var/wcdemo-ansible
 
+- name: generate inventory
+  template: src=inventory.j2 dest=/var/wcdemo-ansible/inventory
+  tags: "test"
+
 - name: ensure datadog_callback.yml
   file:
     path: /var/wcdemo-ansible/playbooks/callback_plugins/datadog_callback.yml

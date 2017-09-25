@@ -1,0 +1,8 @@
+{% for group in groups %}
+{% if group not in ['all'] %}
+[{{ group }}]
+{% for server in groups[group] %}
+{{ hostvars[server]['ansible_eth0']['ipv4']['address'] }}
+{% endfor %}
+{% endif %}
+{% endfor %}
