@@ -1,0 +1,24 @@
+---
+- hosts: "app"
+  become: true
+  tasks:
+    - name: stop supervisor initial
+      service: name=supervisor state=stopped
+    
+    - name: start supervisor initial
+      service: name=supervisor state=started
+    
+    - name: reread supervisor
+      command: supervisorctl reread
+          
+    - name: update supervisor
+      command: supervisorctl update
+    
+    - name: restart supervisor tasks
+      command: supervisorctl restart all
+
+    - name: get supervisor status 
+      command: supervisorctl status
+      register: superstatus 
+
+    - debug: var=superstatus

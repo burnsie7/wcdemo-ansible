@@ -1,0 +1,9 @@
+---
+- hosts: "app_server"
+  become: true
+  tasks:
+    - name: tail django 
+      command: supervisorctl tail django
+      register: tail_django 
+
+    - debug: var=tail_django

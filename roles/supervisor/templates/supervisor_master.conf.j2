@@ -1,5 +1,5 @@
 [program:django]
-command={{ app_path }}/venv/bin/gunicorn --workers 3 --timeout 120 --name perfdemo --statsd-host 127.0.0.1:8125 -b 0.0.0.0:8000 perfdemo.wsgi:application
+command={{ app_path }}/venv/bin/gunicorn --workers 1 --timeout 120 --name perfdemo --statsd-host 127.0.0.1:8125 -b 0.0.0.0:8000 perfdemo.wsgi:application
 user=ubuntu
 directory={{ app_path }}/
 autorestart=true
@@ -13,8 +13,8 @@ killasgroup=true
 
 environment=PYTHONUNBUFFERED=1,PYTHONDONTWRITEBYTECODE=1
 
-[program:celery_worker]
-command={{ app_path }}/venv/bin/celery -A perfdemo worker -l info
+[program:celery_beat]
+command={{ app_path }}/venv/bin/celery -A perfdemo beat -l info --pidfile=/tmp/celerybeat-perfdemo.pid  --schedule=/tmp/celerybeat-schedule
 user=ubuntu
 directory={{ app_path }}/
 autorestart=true
@@ -25,5 +25,5 @@ stdout_logfile=/var/log/supervisor/%(program_name)s.log
 redirect_stderr=true
 stopasgroup=true
 killasgroup=true
-numprocs=2
+numprocs=1
 process_name=%(program_name)s_%(process_num)s

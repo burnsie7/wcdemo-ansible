@@ -2,6 +2,10 @@
 - hosts: database
   become: true
   vars:
+    datadog_config:
+      tags: "postgres, wcd"
+      log_level: INFO
+      apm_enabled: "true" # has to be set as a string
     datadog_checks:
       postgres:
         init_config:

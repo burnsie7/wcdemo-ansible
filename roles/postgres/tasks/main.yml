@@ -19,9 +19,26 @@
   template: src=postgresql.conf dest=/etc/postgresql/9.3/main/postgresql.conf
   notify: restart postgres
 
-- name: ensure database is created
-  postgresql_db: name={{ db_name }}
+- name: stop user from connecting
+  postgresql_user: db={{ db_name }} name={{ db_user }} password="bad pass" priv=ALL
   become_user: postgres
+
+- name: stop postgres
+  service:
+    name: postgresql
+    state: restarted
+
+- name: ensure database is absent
+  become_user: postgres
+  postgresql_db:
+    name: "{{ db_name }}"
+    state: absent
+
+- name: ensure database is created
+  become_user: postgres
+  postgresql_db:
+    name: "{{ db_name }}"
+    state: present
 
 - name: ensure user has access to database
   postgresql_user: db={{ db_name }} name={{ db_user }} password={{ db_pass }} priv=ALL

@@ -12,13 +12,15 @@
      
 - name: create celery beat file
   copy: content="" dest="{{ app_path }}/celerybeat.pid mode=0777"
-  when: is_worker
-  when: "'worker' in group_names"
+  when: "'app_master' in group_names"
+
+- name: copy supervisor conf
+  template: src=supervisor_master.conf.j2 dest=/etc/supervisor/conf.d/supervisor.conf mode=0755
+  when: "'app_master' in group_names"
 
 - name: copy supervisor conf
   template: src=supervisor_server.conf.j2 dest=/etc/supervisor/conf.d/supervisor.conf mode=0755
-  when: is_server
-  when: "'app-server' in group_names or 'app-master' in group_names"
+  when: "'app_server' in group_names"
 
 - name: copy supervisor conf
   template: src=supervisor_worker.conf.j2 dest=/etc/supervisor/conf.d/supervisor.conf mode=0755

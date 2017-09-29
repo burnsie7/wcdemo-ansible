@@ -79,9 +79,10 @@
 - name: install ssh key
   local_action: "shell cat ../tmp/demo_id_rsa.pub | ssh -i {{ pem_path }} -oStrictHostKeyChecking=no -l ubuntu ubuntu@{{ inventory_hostname }} 'cat >> .ssh/authorized_keys'"
 
-- cron:
+- name: install cron job
+  cron:
     name: "test job"
-    minute: "*/2"
+    minute: "*/20"
     job: "ansible-playbook /var/wcdemo-ansible/playbooks/test.yml"
 
 # TODO: Create inventory using internal IPs, copy vars over, make cron task do something

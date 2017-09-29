@@ -1,9 +1,16 @@
 ---
 - hosts: all
   gather_facts: true
-- hosts: ["app-master", "app-server"]
+
+- hosts: app
+  gather_facts: false
   become: true
   vars:
+    datadog_config:
+      tags: "django, wcd, {{ group_names }}"
+      log_level: INFO
+      apm_enabled: "true" # has to be set as a string
+    # TODO: Leave off of workers using vars
     datadog_checks:
       gunicorn:
         init_config:
@@ -11,15 +18,11 @@
           - proc_name: perfdemo
   roles:
     - Datadog.datadog
-
-- hosts: ["app-master", "app-server", "worker"]
-  become: true
-  vars:
-  roles:
     - django
 
 # django_migrate does not support 'when' so doing this instead. not great but whatevs.
-- hosts: ["app-master"]
+- hosts: ["app_master"]
+  gather_facts: false
   tasks:
     - name: django migrate
       django_manage:
@@ -33,7 +36,8 @@
         virtualenv: "{{ app_path }}/venv"
         app_path: "{{ app_path }}"
 
-- hosts: ["app-master", "app-server", "worker"]
+- hosts: app
+  gather_facts: false
   become: true
   roles:
     - supervisor
