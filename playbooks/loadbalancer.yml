@@ -14,6 +14,7 @@
         instances:
           - nginx_status_url: http://localhost/nginx_status/
   roles:
+    - sshkeys
     - Datadog.datadog
     - nginx
 

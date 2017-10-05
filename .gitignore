@@ -1,5 +1,6 @@
 vars
 datadog_callback.yml
 inventory
+authorized_keys
 *.pyc
 *.pem

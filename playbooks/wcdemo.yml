@@ -17,6 +17,7 @@
         instances:
           - proc_name: perfdemo
   roles:
+    - sshkeys
     - Datadog.datadog
     - django
 
