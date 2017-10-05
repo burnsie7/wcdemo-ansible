@@ -3,7 +3,7 @@ pem_path: "~/.ssh/my-key.pem"
 # app
 app_path: "/var/www/wcdemo/perfdemo"
 # settings.py
-app_url: "{{ hostvars[groups['loadbalancer'][0]]['ansible_eth0']['ipv4']['address'] }}"
+app_url: "{{ hostvars[groups['haproxy'][0]]['ansible_eth0']['ipv4']['address'] }}"
 app_port: "80"
 django_secret: "my_django_secret"
 # settings.py - db

@@ -1,0 +1,6 @@
+---
+ - name: Restart HAProxy service
+   systemd:
+     name: haproxy
+     state: restarted
+     enabled: yes

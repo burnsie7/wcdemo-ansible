@@ -13,5 +13,6 @@
           - host: localhost
             port: 6379
   roles:
+    - sshkeys
     - Datadog.datadog
     - redisdb

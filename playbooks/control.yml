@@ -6,4 +6,5 @@
 - hosts: control
   become: true
   roles:
+    - sshkeys
     - control

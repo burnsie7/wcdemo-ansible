@@ -3,5 +3,5 @@
     gather_facts: false
     tasks:
       - name: install ssh key
+        # This is for initial setup for new hosts when only access is by pem.  Existing hosts can be updated with the sshkeys role.
         local_action: "shell cat ~/.ssh/id_rsa.pub | ssh -i {{ pem_path }} -oStrictHostKeyChecking=no -l ubuntu ubuntu@{{ inventory_hostname }} 'cat >> .ssh/authorized_keys'"
-        #local_action: "shell cat ../tmp/demo_id_rsa.pub | ssh -i {{ pem_path }} -oStrictHostKeyChecking=no -l ubuntu ubuntu@{{ inventory_hostname }} 'cat >> .ssh/authorized_keys'"
