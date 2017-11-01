@@ -13,6 +13,8 @@
         init_config:
         instances:
           - nginx_status_url: http://localhost/nginx_status/
+            tags:
+              - env:demo
   roles:
     - sshkeys
     - Datadog.datadog

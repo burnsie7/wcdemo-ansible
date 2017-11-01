@@ -4,3 +4,4 @@ inventory
 authorized_keys
 *.pyc
 *.pem
+tmp

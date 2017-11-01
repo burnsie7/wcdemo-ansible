@@ -16,6 +16,8 @@
             - url: http://localhost/haproxy_stats
               username: stats_user
               password: stats_pass
+              tags:
+                - env:demo
     roles:
       - Datadog.datadog
       - sshkeys

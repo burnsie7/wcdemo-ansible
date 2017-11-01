@@ -15,8 +15,7 @@
             username: "{{ agent_user }}"
             password: "{{ agent_pass }}"
             tags:
-              - test
-              - env:ans-demo
+              - env:demo
   roles:
     - sshkeys
     - postgres

@@ -12,6 +12,8 @@
         instances:
           - host: localhost
             port: 6379
+            tags:
+              - env:demo
   roles:
     - sshkeys
     - Datadog.datadog
